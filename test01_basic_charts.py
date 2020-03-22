@@ -13,7 +13,7 @@ plt.style.use('jay1')
 
 dfs = []
 # from https://github.com/CSSEGISandData/COVID-19.git
-basepath = "../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports"
+basepath = "../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports"
 for e in sorted(os.listdir(basepath)):
     if e.endswith(".csv"):
         print(e)
