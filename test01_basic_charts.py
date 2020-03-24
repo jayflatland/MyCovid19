@@ -64,9 +64,12 @@ if 0:
     d = df_act[focus_countries]
     # d = d.sum(axis=1)
     d = d.diff()
-    d = d / d.shift(1)
-    # d.rolling(5).mean().plot(title='Growth Rate (Ratio per Day)')
-    d.plot(title='Growth Rate (Ratio per Day)')
+    d = (d / d.shift(1) - 1.0) * 100.0
+    #d.rolling(7).mean().plot(title='Growth Percent per Day')
+    plt.title('Growth Rate (Ratio per Day)')
+    plt.plot(d)
+    plt.ylim(0, 150)
+    plt.show()
 
 
 # %%
@@ -79,7 +82,7 @@ if 0:
     df_act[focus_countries].plot(title='Active Cases (Confirmed minus Dead/Recovered)')
     
     df_cnt[focus_countries].plot(title='Count')
-    df_cnt[focus_countries].diff().plot(title='New Cases per Day')
+    df_cnt[focus_countries].diff().plot(title='New Cases per Day', kind='bar')
 
     df_ded[focus_countries].plot(title='Deaths')
     df_rec[focus_countries].plot(title='Recoveries')
