@@ -22,18 +22,39 @@ d['Total'] = d.sum(axis=1)
 dd = d.diff()
 dl = d * 0 + np.log(d)
 
-# %%
-plt.figure()
-plt.plot(d['New York'], dd['New York'])
+dr = dd / d * 100.0
 
 # %%
 plt.figure()
-plt.plot(d['Total'], dd['Total'])
+plt.title("Daily Cases Increase Percent")
+cols = [
+    'New York',
+    'California',
+    'Michigan',
+    'Kansas',
+    'Missouri',
+    'Total',
+]
+#cols = list(d)
+
+for c in cols:
+    plt.plot(dr[c].rolling(3).mean(), label=c)
+plt.legend()
+plt.show()
 
 # %%
-plt.figure()
-plt.plot(dl['New York'].diff())
 
-# %%
-plt.figure()
-plt.plot(dl['Total'].diff())
+#plt.figure()
+#plt.plot(d['New York'], dd['New York'])
+
+## %%
+#plt.figure()
+#plt.plot(d['Total'], dd['Total'])
+#
+## %%
+#plt.figure()
+#plt.plot(dl['New York'].diff())
+#
+## %%
+#plt.figure()
+#plt.plot(dl['Total'].diff())
