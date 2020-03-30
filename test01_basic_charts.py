@@ -61,11 +61,12 @@ focus_countries = ['South Korea', 'Italy', 'Iran', 'US']
 if 0:
     pass
     # %%
-    d = df_act[focus_countries]
+    d = df_cnt[focus_countries]
     # d = d.sum(axis=1)
     d = d.diff()
     d = (d / d.shift(1) - 1.0) * 100.0
     #d.rolling(7).mean().plot(title='Growth Percent per Day')
+    plt.figure()
     plt.title('Growth Rate (Ratio per Day)')
     plt.plot(d)
     plt.ylim(0, 150)
