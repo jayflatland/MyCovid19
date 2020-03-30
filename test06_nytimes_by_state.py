@@ -17,36 +17,23 @@ df['date'] = pd.to_datetime(df['date'])
 
 # %%
 
-d = df.pivot_table(index='date', columns='state', values='deaths')
-# d[d.max(axis=0) > 100]
-dlog = d * 0 + np.log10(d)
-dlog.plot()
-
-dtotal = d.fillna(0.0).sum(axis=1)
-dlogtotal = dtotal * 0 + np.log10(dtotal)
-dlogtotal.plot()
-dtotal.plot()
-((dtotal / dtotal.shift(1) - 1.0) * 100.0).plot()
-
-plt.figure()
-plt.semilogy(d)
-plt.legend()
-plt.show()
-
-d2 = d.copy()
-d2 = d2 * np.where(d2 < 20, np.nan, 1.0)
-
-d3 = (d2 / d2.shift(1) - 1.0) * 100
-d4 = d3.rolling(3).mean()
-
-d5 = d2 - d2.shift(1)
+d = df.pivot_table(index='date', columns='state', values='cases')
+d['Total'] = d.sum(axis=1)
+dd = d.diff()
+dl = d * 0 + np.log(d)
 
 # %%
-
-df = df[df['state'] == 'New York']
-df = df[df['county'] == 'New York City']
-
 plt.figure()
-plt.plot(df['cases'])
-plt.show()
+plt.plot(d['New York'], dd['New York'])
 
+# %%
+plt.figure()
+plt.plot(d['Total'], dd['Total'])
+
+# %%
+plt.figure()
+plt.plot(dl['New York'].diff())
+
+# %%
+plt.figure()
+plt.plot(dl['Total'].diff())
