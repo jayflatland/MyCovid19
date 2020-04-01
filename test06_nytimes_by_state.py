@@ -22,15 +22,16 @@ d['Total'] = d.sum(axis=1)
 dd = d.diff()
 dr = dd / d * 100.0
 
-# %%
+# # %%
 plt.figure()
 plt.title("Daily Deaths Increase Percent")
 cols = [
     'New York',
     'California',
-    'Michigan',
-    'Kansas',
-    'Missouri',
+    #'Michigan',
+    #'Kansas',
+    #'Missouri',
+    'Texas',
     'Florida',
     'Total',
 ]
@@ -51,23 +52,24 @@ d['Total'] = d.sum(axis=1)
 dd = d.diff()
 dr = dd / d * 100.0
 
-# %%
+# # %%
 plt.figure()
 plt.title("Daily Deaths Increase Percent")
 cols = [
-    # 'New York',
-    # 'California',
+    'New York',
+    'California',
     # 'Michigan',
     # 'Kansas',
     # 'Missouri',
+    # 'Texas',
     # 'Florida',
     'Total',
 ]
 #cols = list(d)
 
 for c in cols:
-    # plt.plot(dr[c].rolling(3).mean(), label=c)
-    plt.plot(dr[c], label=c)
+    plt.plot(dr[c].rolling(3).mean(), label=c)
+    # plt.plot(dr[c], label=c)
 plt.legend()
 plt.xticks(rotation=45)
 plt.subplots_adjust(bottom=0.15)
