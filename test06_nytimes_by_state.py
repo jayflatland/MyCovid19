@@ -17,8 +17,8 @@ df['date'] = pd.to_datetime(df['date'])
 
 # %%
 
-r, c = 1, 2
-fig, axs = plt.subplots(r, c, figsize=(18, 6), sharex=True)
+r, c = 3, 2
+fig, axs = plt.subplots(r, c, figsize=(18, 18), sharex=True)
 if r == 1 and c == 1: axs = [axs]
 elif r == 1 or c == 1:  axs = list(axs)
 else: axs = [axs[i, j] for j in range(c) for i in range(r)]  # flatten
@@ -29,9 +29,6 @@ d['Total'] = d.sum(axis=1)
 dd = d.diff()
 dr = dd / d * 100.0
 
-# # %%
-plt.sca(axs.pop(0))
-plt.title("Daily Deaths Increase Percent (3 day MA)")
 cols = [
     'New York',
     'California',
@@ -42,7 +39,31 @@ cols = [
     'Florida',
     'Total',
 ]
-#cols = list(d)
+
+plt.sca(axs.pop(0))
+plt.title("Cases")
+
+for c in cols:
+    plt.plot(d[c].rolling(3).mean(), label=c)
+    # plt.plot(dr[c], label=c)
+plt.legend()
+plt.xticks(rotation=45)
+plt.subplots_adjust(bottom=0.15)
+
+
+plt.sca(axs.pop(0))
+plt.title("Daily Cases Increases")
+
+for c in cols:
+    plt.plot(dd[c].rolling(3).mean(), label=c)
+    # plt.plot(dr[c], label=c)
+plt.legend()
+plt.xticks(rotation=45)
+plt.subplots_adjust(bottom=0.15)
+
+
+plt.sca(axs.pop(0))
+plt.title("Daily Cases Increase Percent (3 day MA)")
 
 for c in cols:
     plt.plot(dr[c].rolling(3).mean(), label=c)
@@ -58,9 +79,6 @@ d['Total'] = d.sum(axis=1)
 dd = d.diff()
 dr = dd / d * 100.0
 
-# # %%
-plt.sca(axs.pop(0))
-plt.title("Daily Deaths Increase Percent (3 day MA)")
 cols = [
     'New York',
     'California',
@@ -71,7 +89,31 @@ cols = [
     # 'Florida',
     'Total',
 ]
-#cols = list(d)
+
+plt.sca(axs.pop(0))
+plt.title("Deaths")
+
+for c in cols:
+    plt.plot(d[c].rolling(3).mean(), label=c)
+    # plt.plot(dr[c], label=c)
+plt.legend()
+plt.xticks(rotation=45)
+plt.subplots_adjust(bottom=0.15)
+
+
+plt.sca(axs.pop(0))
+plt.title("Daily Deaths Increases")
+
+for c in cols:
+    plt.plot(dd[c].rolling(3).mean(), label=c)
+    # plt.plot(dr[c], label=c)
+plt.legend()
+plt.xticks(rotation=45)
+plt.subplots_adjust(bottom=0.15)
+
+
+plt.sca(axs.pop(0))
+plt.title("Daily Deaths Increase Percent (3 day MA)")
 
 for c in cols:
     plt.plot(dr[c].rolling(3).mean(), label=c)
