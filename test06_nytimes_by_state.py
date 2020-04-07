@@ -17,7 +17,7 @@ df['date'] = pd.to_datetime(df['date'])
 
 # %%
 
-r, c = 3, 2
+r, c = 2, 2
 fig, axs = plt.subplots(r, c, figsize=(18, 18), sharex=True)
 if r == 1 and c == 1: axs = [axs]
 elif r == 1 or c == 1:  axs = list(axs)
@@ -28,6 +28,8 @@ d = df.pivot_table(index='date', columns='state', values='cases')
 d['Total'] = d.sum(axis=1)
 dd = d.diff()
 dr = dd / d * 100.0
+
+ddr = (dd / dd.shift(1) - 1) * 100.0
 
 cols = [
     'New York',
@@ -40,26 +42,27 @@ cols = [
     'Total',
 ]
 
-plt.sca(axs.pop(0))
-plt.title("Cases")
+#plt.sca(axs.pop(0))
+#plt.title("Cases")
+#
+#for c in cols:
+#    plt.plot(d[c].rolling(3).mean(), label=c)
+#    # plt.plot(dr[c], label=c)
+#plt.legend()
+#plt.xticks(rotation=45)
+#plt.subplots_adjust(bottom=0.15)
 
-for c in cols:
-    plt.plot(d[c].rolling(3).mean(), label=c)
-    # plt.plot(dr[c], label=c)
-plt.legend()
-plt.xticks(rotation=45)
-plt.subplots_adjust(bottom=0.15)
 
+#plt.sca(axs.pop(0))
+#plt.title("Daily Cases Increases")
+#
+#for c in cols:
+#    plt.plot(dd[c].rolling(3).mean(), label=c)
+#    # plt.plot(dr[c], label=c)
+#plt.legend()
+#plt.xticks(rotation=45)
+#plt.subplots_adjust(bottom=0.15)
 
-plt.sca(axs.pop(0))
-plt.title("Daily Cases Increases")
-
-for c in cols:
-    plt.plot(dd[c].rolling(3).mean(), label=c)
-    # plt.plot(dr[c], label=c)
-plt.legend()
-plt.xticks(rotation=45)
-plt.subplots_adjust(bottom=0.15)
 
 
 plt.sca(axs.pop(0))
@@ -68,6 +71,18 @@ plt.title("Daily Cases Increase Percent (3 day MA)")
 for c in cols:
     plt.plot(dr[c].rolling(3).mean(), label=c)
     # plt.plot(dr[c], label=c)
+plt.legend()
+plt.xticks(rotation=45)
+plt.subplots_adjust(bottom=0.15)
+
+
+
+plt.sca(axs.pop(0))
+plt.title("Daily New Cases Percent Change")# (3 day MA)")
+
+for c in cols:
+    # plt.plot(ddr[c].rolling(3).mean(), label=c)
+    plt.plot(ddr[c], label=c)
 plt.legend()
 plt.xticks(rotation=45)
 plt.subplots_adjust(bottom=0.15)
@@ -90,26 +105,29 @@ cols = [
     'Total',
 ]
 
+#plt.sca(axs.pop(0))
+#plt.title("Deaths")
+#
+#for c in cols:
+#    plt.plot(d[c].rolling(3).mean(), label=c)
+#    # plt.plot(dr[c], label=c)
+#plt.legend()
+#plt.xticks(rotation=45)
+#plt.subplots_adjust(bottom=0.15)
+
+
+#plt.sca(axs.pop(0))
+#plt.title("Daily Deaths Increases")
+#
+#for c in cols:
+#    plt.plot(dd[c].rolling(3).mean(), label=c)
+#    # plt.plot(dr[c], label=c)
+#plt.legend()
+#plt.xticks(rotation=45)
+#plt.subplots_adjust(bottom=0.15)
+
+
 plt.sca(axs.pop(0))
-plt.title("Deaths")
-
-for c in cols:
-    plt.plot(d[c].rolling(3).mean(), label=c)
-    # plt.plot(dr[c], label=c)
-plt.legend()
-plt.xticks(rotation=45)
-plt.subplots_adjust(bottom=0.15)
-
-
-plt.sca(axs.pop(0))
-plt.title("Daily Deaths Increases")
-
-for c in cols:
-    plt.plot(dd[c].rolling(3).mean(), label=c)
-    # plt.plot(dr[c], label=c)
-plt.legend()
-plt.xticks(rotation=45)
-plt.subplots_adjust(bottom=0.15)
 
 
 plt.sca(axs.pop(0))
