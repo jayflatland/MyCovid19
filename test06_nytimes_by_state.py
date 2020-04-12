@@ -17,7 +17,7 @@ df['date'] = pd.to_datetime(df['date'])
 
 # %%
 
-r, c = 2, 2
+r, c = 1, 2
 fig, axs = plt.subplots(r, c, figsize=(18, 18), sharex=True)
 if r == 1 and c == 1: axs = [axs]
 elif r == 1 or c == 1:  axs = list(axs)
@@ -77,15 +77,15 @@ plt.subplots_adjust(bottom=0.15)
 
 
 
-plt.sca(axs.pop(0))
-plt.title("Daily New Cases Percent Change")# (3 day MA)")
+# plt.sca(axs.pop(0))
+# plt.title("Daily New Cases Percent Change")# (3 day MA)")
 
-for c in cols:
-    # plt.plot(ddr[c].rolling(3).mean(), label=c)
-    plt.plot(ddr[c], label=c)
-plt.legend()
-plt.xticks(rotation=45)
-plt.subplots_adjust(bottom=0.15)
+# for c in cols:
+#     # plt.plot(ddr[c].rolling(3).mean(), label=c)
+#     plt.plot(ddr[c], label=c)
+# plt.legend()
+# plt.xticks(rotation=45)
+# plt.subplots_adjust(bottom=0.15)
 
 # %%
 
@@ -127,7 +127,7 @@ cols = [
 #plt.subplots_adjust(bottom=0.15)
 
 
-plt.sca(axs.pop(0))
+# plt.sca(axs.pop(0))
 
 
 plt.sca(axs.pop(0))
