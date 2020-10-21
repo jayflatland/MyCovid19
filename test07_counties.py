@@ -11,26 +11,49 @@ plt.style.use('jay1')
 df = pd.read_csv("../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
 #df = df[df['Country_Region'] == 'US']
 #df = df[df['Province/State'] == 'Johnson County, KS']
-df = df[df['Combined_Key'] == 'Mille Lacs, Minnesota, US']
-#df = df[df['Combined_Key'] == 'Stearns, Minnesota, US']
-#df = df[df['Combined_Key'] == 'Steele, Minnesota, US']
+counties = [
+    # Mom/Dad
+    'Mille Lacs, Minnesota, US',     # Milaca
+    'Kanabec, Minnesota, US',        # Mora
+    'Benton, Minnesota, US',         # Foley
+    'Morrison, Minnesota, US',       # Little Falls
+    'Crow Wing, Minnesota, US',      # Brainerd
+    #'Stearns, Minnesota, US',        # St Cloud
 
+    # Brian
+    #'Steele, Minnesota, US',         # Ellendale
+
+    # Jay
+    # 'Johnson, Kansas, US',      # Olathe
+    # 'Wyandotte, Kansas, US',
+    # 'Leavenworth, Kansas, US',
+    # 'Jackson, Missouri, US', # KC
+    # 'Platte, Missouri, US',
+    # 'Clay, Missouri, US',
+]
+
+d = sorted(df.Combined_Key)
+df = df[df['Combined_Key'].isin(counties)]
+df = df.set_index('Combined_Key')
 #Mille Lacs, Minnesota, US
+# %%
 
 #df = df.set_index('Province/State')
 df = df[df.columns[11:]].T
 df = df.set_index(pd.to_datetime(df.index))
-df.columns = ['v']
-df['d'] = df.diff()
-df['u'] = df['d'].rolling(7).mean()
+df_d = df.diff()
+df_du = df_d.rolling(7).mean()
+#df.columns = ['v']
+#df['d'] = df.diff()
+#df['u'] = df['d'].rolling(7).mean()
+
+df_du.plot()
 
 # %%
-plt.figure()
-plt.title("Mille Lacs County Covid Cases")
-plt.plot(df['d'], label='Daily New Cases')
-plt.plot(df['u'], label='7 Day Moving Average')
-plt.legend()
-plt.show()
+#plt.figure()
+#plt.title("Mille Lacs County Covid Cases")
+#plt.plot(df)
+#plt.plot(df['u'], label='7 Day Moving Average')
 
 # dfs = []
 # # from https://github.com/CSSEGISandData/COVID-19.git
