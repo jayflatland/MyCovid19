@@ -18,10 +18,10 @@ counties = [
     'Benton, Minnesota, US',         # Foley
     'Morrison, Minnesota, US',       # Little Falls
     'Crow Wing, Minnesota, US',      # Brainerd
-    #'Stearns, Minnesota, US',        # St Cloud
+    # 'Stearns, Minnesota, US',        # St Cloud
 
     # Brian
-    #'Steele, Minnesota, US',         # Ellendale
+    # 'Steele, Minnesota, US',         # Ellendale
 
     # Jay
     # 'Johnson, Kansas, US',      # Olathe
@@ -47,7 +47,7 @@ df_du = df_d.rolling(7).mean()
 #df['d'] = df.diff()
 #df['u'] = df['d'].rolling(7).mean()
 
-df_du.plot()
+df_d.plot()
 
 # %%
 #plt.figure()
