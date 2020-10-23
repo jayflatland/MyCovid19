@@ -31,10 +31,10 @@ counties = [
     # 'Platte, Missouri, US',
     # 'Clay, Missouri, US',
 ]
-
-d = sorted(df.Combined_Key)
-df = df[df['Combined_Key'].isin(counties)]
-df = df.set_index('Combined_Key')
+df = df.rename(columns={"Combined_Key": "County"})
+d = sorted(df.County)
+df = df[df['County'].isin(counties)]
+df = df.set_index('County')
 #Mille Lacs, Minnesota, US
 # %%
 
@@ -47,7 +47,7 @@ df_du = df_d.rolling(7).mean()
 #df['d'] = df.diff()
 #df['u'] = df['d'].rolling(7).mean()
 
-df_d.plot()
+df_du.plot()
 
 # %%
 #plt.figure()
