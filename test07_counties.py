@@ -13,23 +13,23 @@ df = pd.read_csv("../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_tim
 #df = df[df['Province/State'] == 'Johnson County, KS']
 counties = [
     # Mom/Dad
-    'Mille Lacs, Minnesota, US',     # Milaca
-    'Kanabec, Minnesota, US',        # Mora
-    'Benton, Minnesota, US',         # Foley
-    'Morrison, Minnesota, US',       # Little Falls
-    'Crow Wing, Minnesota, US',      # Brainerd
+    # 'Mille Lacs, Minnesota, US',     # Milaca
+    # 'Kanabec, Minnesota, US',        # Mora
+    # 'Benton, Minnesota, US',         # Foley
+    # 'Morrison, Minnesota, US',       # Little Falls
+    # 'Crow Wing, Minnesota, US',      # Brainerd
     # 'Stearns, Minnesota, US',        # St Cloud
 
     # Brian
     # 'Steele, Minnesota, US',         # Ellendale
 
     # Jay
-    # 'Johnson, Kansas, US',      # Olathe
-    # 'Wyandotte, Kansas, US',
-    # 'Leavenworth, Kansas, US',
-    # 'Jackson, Missouri, US', # KC
-    # 'Platte, Missouri, US',
-    # 'Clay, Missouri, US',
+    'Johnson, Kansas, US',      # Olathe
+    'Wyandotte, Kansas, US',
+    'Leavenworth, Kansas, US',
+    'Jackson, Missouri, US', # KC
+    'Platte, Missouri, US',
+    'Clay, Missouri, US',
 ]
 df = df.rename(columns={"Combined_Key": "County"})
 d = sorted(df.County)
