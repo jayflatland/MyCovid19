@@ -8,8 +8,8 @@ plt.style.use('jay1')
 
 # %%
 
-#df = pd.read_csv("../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
 df = pd.read_csv("../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+#df = pd.read_csv("../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
 #df = df[df['Country_Region'] == 'US']
 #df = df[df['Province/State'] == 'Johnson County, KS']
 counties = [
