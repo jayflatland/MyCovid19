@@ -10,23 +10,23 @@ plt.style.use('jay1')
 
 counties = [
     # Mom/Dad
-    'Mille Lacs, Minnesota, US',     # Milaca
-    'Kanabec, Minnesota, US',        # Mora
-    'Benton, Minnesota, US',         # Foley
-    'Morrison, Minnesota, US',       # Little Falls
-    'Crow Wing, Minnesota, US',      # Brainerd
+#    'Mille Lacs, Minnesota, US',     # Milaca
+#    'Kanabec, Minnesota, US',        # Mora
+#    'Benton, Minnesota, US',         # Foley
+#    'Morrison, Minnesota, US',       # Little Falls
+#    'Crow Wing, Minnesota, US',      # Brainerd
     # 'Stearns, Minnesota, US',        # St Cloud
 
     # Brian
     # 'Steele, Minnesota, US',         # Ellendale
 
     # Jay
-    # 'Johnson, Kansas, US',      # Olathe
-    # 'Wyandotte, Kansas, US',
-    # 'Leavenworth, Kansas, US',
-    # 'Jackson, Missouri, US', # KC
-    # 'Platte, Missouri, US',
-    # 'Clay, Missouri, US',
+    'Johnson, Kansas, US',      # Olathe
+#    'Wyandotte, Kansas, US',
+#    'Leavenworth, Kansas, US',
+#    'Jackson, Missouri, US', # KC
+#    'Platte, Missouri, US',
+#    'Clay, Missouri, US',
 ]
 
 
@@ -57,5 +57,8 @@ df = df.set_index('County')
 
 df = df[df.columns[11:]].T
 df = df.set_index(pd.to_datetime(df.index))
+df_d = df.diff()
+df_du = df_d.rolling(7).mean()
 df.plot(title="Deaths")
+#df_d.plot(title="Daily Deaths")
 
