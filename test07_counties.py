@@ -10,23 +10,23 @@ plt.style.use('jay1')
 
 counties = [
     # Mom/Dad
-#    'Mille Lacs, Minnesota, US',     # Milaca
-#    'Kanabec, Minnesota, US',        # Mora
-#    'Benton, Minnesota, US',         # Foley
-#    'Morrison, Minnesota, US',       # Little Falls
-#    'Crow Wing, Minnesota, US',      # Brainerd
+    'Mille Lacs, Minnesota, US',     # Milaca
+    'Kanabec, Minnesota, US',        # Mora
+    'Benton, Minnesota, US',         # Foley
+    'Morrison, Minnesota, US',       # Little Falls
+    'Crow Wing, Minnesota, US',      # Brainerd
     # 'Stearns, Minnesota, US',        # St Cloud
 
     # Brian
     # 'Steele, Minnesota, US',         # Ellendale
 
     # Jay
-    'Johnson, Kansas, US',      # Olathe
-#    'Wyandotte, Kansas, US',
-#    'Leavenworth, Kansas, US',
-#    'Jackson, Missouri, US', # KC
-#    'Platte, Missouri, US',
-#    'Clay, Missouri, US',
+    # 'Johnson, Kansas, US',      # Olathe
+    # 'Wyandotte, Kansas, US',
+    # 'Leavenworth, Kansas, US',
+    # 'Jackson, Missouri, US', # KC
+    # 'Platte, Missouri, US',
+    # 'Clay, Missouri, US',
 ]
 
 
