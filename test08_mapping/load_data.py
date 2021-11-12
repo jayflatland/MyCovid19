@@ -27,19 +27,20 @@ df = df.set_index('County_ID')
 df = df[df.columns[11:]].T
 df = df.set_index(pd.to_datetime(df.index))
 df = df.fillna(0.0)
-df7 = df.rolling(7).mean()
-df28 = df.rolling(8).mean()
-df = df7 - df28
-#df = np.log(df)
-
-#df = df / df.max()  #normalize by county max
-df = (df.T / df.max(axis=1).T).T  #normalize by date max
+df = df.diff()
+df_u1 = df.rolling(7*5).mean()
+df_u2 = df.rolling(7*8).mean()
+df_s2 = df.rolling(7*8).std()
+df = (df_u1 - df_u2) / df_s2 / 0.6
 
 #plt.plot(df[df.columns[:25]])
 
+df = df * 0.5 + 0.5
+df = df.clip(lower=0.0, upper=1.0)
+
 # %%
 
-m = matplotlib.cm.get_cmap('Reds')
+colormap = matplotlib.cm.get_cmap('coolwarm')
 
 fd = open('data_by_county.js', 'w')
 
@@ -56,7 +57,7 @@ for county_id in sorted(df.columns):
     fd.write(f'"{county_id}": [')
     rows = list(df[county_id])
     for x in rows:
-        r, g, b, a = m(x, bytes=True)
+        r, g, b, a = colormap(x, bytes=True)
         fd.write(f'"#{r:02x}{g:02x}{b:02x}",')
     fd.write("],\n")
 
