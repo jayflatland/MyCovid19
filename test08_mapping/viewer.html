@@ -8,11 +8,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <script src="animator.js"></script>
 
-
-<style type="text/css">
-#c48301, #c48113 {fill:red}
-</style>
-
 </head>
 <body>
 <svg width="989.98" height="627.07" version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -9505,8 +9500,20 @@
  </g>
 </svg>
 
+<div class="slidecontainer">
+  <input id="slider" type="range" class="slider" style="width: 1000px;" oninput="set_colors_by_frame(this.value);" >
+</div>
+
 <script type="text/javascript">
-do_animator();
+//set_colors_by_frame(100);
+//$("#slider").max = "200";
+s = document.getElementById("slider");
+i = get_frame_cnt()-1;
+s.min = 0;
+s.max = i;
+s.value = i;
+set_colors_by_frame(i);
 </script>
+
 </body>
 </html>

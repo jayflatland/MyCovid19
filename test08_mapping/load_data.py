@@ -6,6 +6,7 @@ import matplotlib.pylab as plt
 import seaborn as sns
 from county_to_county_code_map import county_to_county_code_map
 import matplotlib as mpl
+import matplotlib.cm
 
 # %%
 
@@ -25,30 +26,39 @@ df = df[df['County_ID'].notnull()]
 df = df.set_index('County_ID')
 df = df[df.columns[11:]].T
 df = df.set_index(pd.to_datetime(df.index))
-
+df = df.diff()
+df = df.rolling(7).mean()
 # %%
-def colorFader(mix):
-    mix = min(mix, 1.0)
-    mix = max(mix, 0.0)
-    c1='white'
-    c2='red'
-    c1=np.array(mpl.colors.to_rgb(c1))
-    c2=np.array(mpl.colors.to_rgb(c2))
-    return mpl.colors.to_hex((1-mix)*c1 + mix*c2)
+df = np.log(df)
+df = (df.T / df.max(axis=1).T).T
+df = df.fillna(0.0)
 
 # %%
 
 final = df.iloc[-1]
-final = final / final.max()
 
-#plt.plot(list(final))
+m = matplotlib.cm.get_cmap('Reds')
 
+#import sys
+#fd = sys.stdout
 fd = open('animator.js', 'w')
 
-print("function do_animator() {", file=fd)
-for county_id, x in final.items():
-    cc = colorFader(x)
-    print(f'    $("#{county_id}").css("fill", "{cc}");', file=fd)
+print(f"function get_frame_cnt() {{return {len(df)};}}", file=fd)
+print("", file=fd)
+
+print("function set_colors_by_frame(idx) {", file=fd)
+for county_id in sorted(df.columns):
+    print(county_id)
+    fd.write(f'    $("#{county_id}").css("fill", [')
+    rows = list(df[county_id])
+    for x in rows:
+        r, g, b, a = m(x, bytes=True)
+        fd.write(f'"#{r:02x}{g:02x}{b:02x}",')
+    fd.write(f'    ][idx]);\n')
+    
+# for county_id, x in list(final.items())[:5]:
+#     r, g, b, a = m(x, bytes=True)
+#     print(f'    $("#{county_id}").css("fill", "#{r:02x}{g:02x}{b:02x}");', file=fd)
 
 print("}", file=fd)
 fd.close()
