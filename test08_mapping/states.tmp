@@ -34,7 +34,7 @@ sed -i s/,\ NH/,\ New\ Hampshire,\ US/g county_to_county_code_map.py
 sed -i s/,\ NJ/,\ New\ Jersey,\ US/g county_to_county_code_map.py
 sed -i s/,\ NM/,\ New\ Mexico,\ US/g county_to_county_code_map.py
 sed -i s/,\ NV/,\ Nevada,\ US/g county_to_county_code_map.py
-sed -i s/,\ NY/,\ New York,\ US/g county_to_county_code_map.py
+sed -i s/,\ NY/,\ New\ York,\ US/g county_to_county_code_map.py
 sed -i s/,\ OH/,\ Ohio,\ US/g county_to_county_code_map.py
 sed -i s/,\ OK/,\ Oklahoma,\ US/g county_to_county_code_map.py
 sed -i s/,\ OR/,\ Oregon,\ US/g county_to_county_code_map.py
