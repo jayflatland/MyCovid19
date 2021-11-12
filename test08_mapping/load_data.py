@@ -17,9 +17,10 @@ df = cases
 df = df.rename(columns={"Combined_Key": "County"})
 
 county_ids = pd.DataFrame(county_to_county_code_map)
-df = df[df.columns[:11]]
-df.merge(county_ids, how='left', on='County')
+#df = df[df.columns[:11]]
+df = df.merge(county_ids, how='left', on='County')
 
+#list(cases["Province_State"].unique())
 # %%
 # import xml.etree.ElementTree as ET
 # tree = ET.parse('Usa_counties_large.svg')
