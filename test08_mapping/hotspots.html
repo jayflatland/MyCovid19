@@ -6,7 +6,6 @@
 <title></title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="animator.js"></script>
 
 </head>
 <body>
@@ -9500,19 +9499,39 @@
  </g>
 </svg>
 
+
+<script src="data_by_county.js"></script>
+
+<script type="text/javascript">
+function update_frame_idx(idx) {
+    for (const [county_id, color_tbl] of Object.entries(color_by_county_id)) {
+        c = color_tbl[idx];
+        // console.log(county_id, "=", idx);
+        $("#" + county_id).css("fill", c);
+    }
+    dl = document.getElementById("date_label");
+    dl.innerHTML = date_by_idx[idx];
+}
+
+function init_page() {
+    last_idx = date_by_idx.length - 1;
+
+    s = document.getElementById("slider");
+    s.min = 0;
+    s.max = last_idx;
+    s.value = last_idx;
+    update_frame_idx(last_idx);
+}
+
+</script>
+
+<h1 id="date_label">20XX-XX-XX</h1>
 <div class="slidecontainer">
-  <input id="slider" type="range" class="slider" style="width: 1000px;" oninput="set_colors_by_frame(this.value);" >
+  <input id="slider" type="range" class="slider" style="width: 1000px;" oninput="update_frame_idx(this.value);" >
 </div>
 
 <script type="text/javascript">
-//set_colors_by_frame(100);
-//$("#slider").max = "200";
-s = document.getElementById("slider");
-i = get_frame_cnt()-1;
-s.min = 0;
-s.max = i;
-s.value = i;
-set_colors_by_frame(i);
+init_page();
 </script>
 
 </body>

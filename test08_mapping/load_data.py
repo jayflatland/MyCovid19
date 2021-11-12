@@ -27,8 +27,10 @@ df = df.set_index('County_ID')
 df = df[df.columns[11:]].T
 df = df.set_index(pd.to_datetime(df.index))
 df = df.fillna(0.0)
-df = df - df.shift(28)
-df = np.log(df)
+df7 = df.rolling(7).mean()
+df28 = df.rolling(8).mean()
+df = df7 - df28
+#df = np.log(df)
 
 #df = df / df.max()  #normalize by county max
 df = (df.T / df.max(axis=1).T).T  #normalize by date max
@@ -39,20 +41,24 @@ df = (df.T / df.max(axis=1).T).T  #normalize by date max
 
 m = matplotlib.cm.get_cmap('Reds')
 
-fd = open('animator.js', 'w')
+fd = open('data_by_county.js', 'w')
 
-print(f"function get_frame_cnt() {{return {len(df)};}}", file=fd)
-print("", file=fd)
+fd.write("var date_by_idx = [")
+for dt in list(df.index):
+    dt = str(dt)[:10]
+    fd.write(f'"{dt}", ')
+fd.write("];\n")
 
-print("function set_colors_by_frame(idx) {", file=fd)
+
+print("var color_by_county_id = {", file=fd)
 for county_id in sorted(df.columns):
     print(county_id)
-    fd.write(f'    $("#{county_id}").css("fill", [')
+    fd.write(f'"{county_id}": [')
     rows = list(df[county_id])
     for x in rows:
         r, g, b, a = m(x, bytes=True)
         fd.write(f'"#{r:02x}{g:02x}{b:02x}",')
-    fd.write(f'    ][idx]);\n')
+    fd.write("],\n")
 
-print("}", file=fd)
+print("};", file=fd)
 fd.close()
