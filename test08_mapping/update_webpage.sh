@@ -12,9 +12,9 @@ echo "Setting conda environment..."
 
 echo "Building data..."
 cd /home/jay/Projects/MyCovid19/test08_mapping
-./load_data.py
+./build_data.py
 
 echo "Copying files..."
-cp hotspots.html data_by_county.js /opt/jayflatland.com/covid/
+cp heatmap.html data_by_county.js /opt/jayflatland.com/covid/
 
 echo "Done!"

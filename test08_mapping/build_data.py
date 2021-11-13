@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import numpy as np
 import pandas as pd
@@ -52,8 +54,10 @@ fd.write("];\n")
 
 
 print("var color_by_county_id = {", file=fd)
-for county_id in sorted(df.columns):
-    print(county_id)
+cols = sorted(df.columns)
+for i, county_id in enumerate(cols):
+    pct = 100 * i / len(cols)
+    print(f"{pct:.1f}% done")
     fd.write(f'"{county_id}": [')
     rows = list(df[county_id])
     for x in rows:
