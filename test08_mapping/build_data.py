@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 
-import os
-import numpy as np
 import pandas as pd
-from pandas import Timestamp, Timedelta
-import matplotlib.pylab as plt
-import seaborn as sns
+#import matplotlib.pylab as plt
 from county_to_county_code_map import county_to_county_code_map
-import matplotlib as mpl
 import matplotlib.cm
 
 # %%
