@@ -12,8 +12,7 @@ import matplotlib.cm
 
 # %%
 
-cases = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
-deaths = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
+df = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
 
 # %%
 county_ids = pd.DataFrame(county_to_county_code_map)
@@ -21,7 +20,6 @@ county_ids = county_ids.rename(columns={"code": "County_ID"})
 
 # %%
 
-df = cases
 df = df.rename(columns={"Combined_Key": "County"})
 df = df.merge(county_ids, how='left', on='County')
 df = df[df['County_ID'].notnull()]
