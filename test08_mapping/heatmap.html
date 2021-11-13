@@ -5,11 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>COVID Heatmap</title>
 
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <style type="text/css">
-  .notes {
-    width: 400px;
-  };
+    .notes {
+        width: 400px;
+    }
+
+    .slidecontainer_outer {
+        width: 980px;
+        /*background-color: #f0f0f0;*/
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .slidecontainer {
+        margin: 5px 10% 5px 10%;
+        /*background-color: #bbbbbb;*/
+    }
+
+    .slider {
+        width: 100%;
+    }
 </style>
 </head>
 <body>
@@ -9512,7 +9527,9 @@ function update_frame_idx(idx) {
     for (const [county_id, color_tbl] of Object.entries(color_by_county_id)) {
         c = color_tbl[idx];
         // console.log(county_id, "=", idx);
-        $("#" + county_id).css("fill", c);
+        //$("#" + county_id).css("fill", c);
+        e = document.getElementById(county_id);
+        e.style.fill = c;
     }
     dl = document.getElementById("date_label");
     dl.innerHTML = date_by_idx[idx];
@@ -9531,9 +9548,10 @@ function init_page() {
 </script>
 
 <h1 id="date_label">20XX-XX-XX</h1>
+<div class="slidecontainer_outer">
 <div class="slidecontainer">
-  <input id="slider" type="range" class="slider" style="width: 1000px;" oninput="update_frame_idx(this.value);" >
-</div>
+  <input id="slider" class="slider" type="range" oninput="update_frame_idx(this.value);" >
+</div></div>
 <div class="notes">
 <p>My code is <a href=https://github.com/jayflatland/MyCovid19/tree/master/test08_mapping>here</a>.</p>
 <p>Data is from <a href=https://github.com/CSSEGISandData/COVID-19.git>Johns Hopkins</a>.</p>
