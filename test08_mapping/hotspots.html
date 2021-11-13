@@ -6,7 +6,11 @@
 <title>COVID Heatmap</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-
+<style type="text/css">
+  .notes {
+    width: 600px;
+  };
+</style>
 </head>
 <body>
 <h1>COVID Heatmap</h1>
@@ -9530,7 +9534,18 @@ function init_page() {
 <div class="slidecontainer">
   <input id="slider" type="range" class="slider" style="width: 1000px;" oninput="update_frame_idx(this.value);" >
 </div>
-
+<div class="notes">
+<p>My code is published <a href=https://github.com/jayflatland/MyCovid19>here</a></p>
+<p>Data is from <a href=https://github.com/CSSEGISandData/COVID-19.git>Johns Hopkins</a></p>
+<p>Color map is built with rolling averages like this:</p>
+<pre>
+u1 = daily_new.rolling(35).mean()
+u2 = daily_new.rolling(56).mean()
+s2 = daily_new.rolling(56).std()
+normalized = (u1 - u2) / s2
+</pre>
+<p>Long rolling averages help see through the noise.  Also, multiples of 7 are important because of weekend ripples.</p>
+</div>
 <script type="text/javascript">
 init_page();
 </script>
