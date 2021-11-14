@@ -21,12 +21,12 @@ counties = [
     # 'Steele, Minnesota, US',         # Ellendale
 
     # Jay
-    # 'Johnson, Kansas, US',      # Olathe
-    # 'Leavenworth, Kansas, US',
-    # 'Wyandotte, Kansas, US',
-    # 'Jackson, Missouri, US', # KC
-    # 'Platte, Missouri, US',
-    # 'Clay, Missouri, US',
+    'Johnson, Kansas, US',      # Olathe
+    'Leavenworth, Kansas, US',
+    'Wyandotte, Kansas, US',
+    'Jackson, Missouri, US', # KC
+    'Platte, Missouri, US',
+    'Clay, Missouri, US',
 ]
 
 

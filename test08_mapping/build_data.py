@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import pandas as pd
-#import matplotlib.pylab as plt
 from county_to_county_code_map import county_to_county_code_map
 import matplotlib.cm
 
@@ -22,41 +21,76 @@ df = df.set_index('County_ID')
 df = df[df.columns[11:]].T
 df = df.set_index(pd.to_datetime(df.index))
 df = df.fillna(0.0)
-df = df.diff()
-df_u1 = df.rolling(7*5).mean()
-df_u2 = df.rolling(7*8).mean()
-df_s2 = df.rolling(7*8).std()
-df = (df_u1 - df_u2) / df_s2 / 0.6
 
-#plt.plot(df[df.columns[:25]])
+new_cases = df.diff()
 
-df = df * 0.5 + 0.5
-df = df.clip(lower=0.0, upper=1.0)
+new_cases_smoothed = new_cases
+new_cases_smoothed = new_cases_smoothed.rolling(7).mean()
+new_cases_smoothed = new_cases_smoothed.fillna(0.0)
+
+u1 = new_cases.rolling(7*5).mean()
+u2 = new_cases.rolling(7*8).mean()
+s2 = new_cases.rolling(7*8).std()
+heat = (u1 - u2) / s2
+
+#import matplotlib.pylab as plt
+#DBG plt.plot(heat[heat.columns[:25]])
+
+heat = heat / 0.6 * 0.5 + 0.5
+heat = heat.clip(lower=0.0, upper=1.0)
+heat = heat.fillna(0.0)
+
+# %% scale to lookup table index
+print("Building color lut...")
+lut_cnt = 65536
+lut_max = lut_cnt - 1
+heat = (heat * lut_max).astype(int)
+
+colormap = matplotlib.cm.get_cmap('coolwarm')
+def cc(x):
+    x = float(x) / lut_max
+    r, g, b, a = colormap(x, bytes=True)
+    return f'#{r:02x}{g:02x}{b:02x}'
+cc_lut = [cc(x) for x in range(lut_cnt)]
 
 # %%
 
-colormap = matplotlib.cm.get_cmap('coolwarm')
 
-fd = open('data_by_county.js', 'w')
+fd = open('gendata.js', 'w')
 
 fd.write("var date_by_idx = [")
-for dt in list(df.index):
+for dt in list(heat.index):
     dt = str(dt)[:10]
     fd.write(f'"{dt}", ')
 fd.write("];\n")
 
-
-print("var color_by_county_id = {", file=fd)
-cols = sorted(df.columns)
+print("Building new cases table...")
+print("var new_cases_by_county_id = {", file=fd)
+cols = sorted(new_cases_smoothed.columns)
 for i, county_id in enumerate(cols):
     pct = 100 * i / len(cols)
-    print(f"{pct:.1f}% done")
+    # print(f"{pct:.1f}% done")
     fd.write(f'"{county_id}": [')
-    rows = list(df[county_id])
+    rows = list(new_cases_smoothed[county_id])
     for x in rows:
-        r, g, b, a = colormap(x, bytes=True)
-        fd.write(f'"#{r:02x}{g:02x}{b:02x}",')
+        fd.write(f'{x},')
     fd.write("],\n")
 
 print("};", file=fd)
+
+print("Building heatmap table...")
+print("var color_by_county_id = {", file=fd)
+cols = sorted(heat.columns)
+for i, county_id in enumerate(cols):
+    pct = 100 * i / len(cols)
+    # print(f"{pct:.1f}% done")
+    fd.write(f'"{county_id}": [')
+    rows = list(heat[county_id])
+    for x in rows:
+        cc = cc_lut[x]
+        fd.write(f'"{cc}",')
+    fd.write("],\n")
+
+print("};", file=fd)
+
 fd.close()
