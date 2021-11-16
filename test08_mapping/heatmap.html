@@ -9555,7 +9555,8 @@ function load_county_chart(e) {
             x: 'x',
             columns: [
                 ['x', ...date_by_idx],
-                [county_name, ...new_cases_by_county_id[e.id]],
+                [`${county_name} (${e.id})`, ...new_cases_by_county_id[e.id]],
+                //`${date_by_idx[idx]} (${county_id})`;
             ]
         },
 

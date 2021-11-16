@@ -5,40 +5,54 @@ from county_to_county_code_map import county_to_county_code_map
 import matplotlib.cm
 
 # %%
-
-df = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
-
-# %%
 county_ids = pd.DataFrame(county_to_county_code_map)
 county_ids = county_ids.rename(columns={"code": "County_ID"})
 
 # %%
 
-df = df.rename(columns={"Combined_Key": "County"})
-df = df.merge(county_ids, how='left', on='County')
-df = df[df['County_ID'].notnull()]
-df = df.set_index('County_ID')
-df = df[df.columns[11:]].T
-df = df.set_index(pd.to_datetime(df.index))
-df = df.fillna(0.0)
+cases = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+cases = cases.rename(columns={"Combined_Key": "County"})
+cases = cases.merge(county_ids, how='left', on='County')
+cases = cases[cases['County_ID'].notnull()]
+cases = cases.set_index('County_ID')
+cases = cases[cases.columns[11:]].T
+cases = cases.set_index(pd.to_datetime(cases.index))
+cases = cases.fillna(0.0)
 
-new_cases = df.diff()
+#plt.plot(sorted(cases.diff().diff().min()))
 
-new_cases_smoothed = new_cases
-new_cases_smoothed = new_cases_smoothed.rolling(7).mean()
-new_cases_smoothed = new_cases_smoothed.fillna(0.0)
+# %%
+new_cases = cases.diff().clip(lower=0.0)
 
-u1 = new_cases.rolling(7*5).mean()
-u2 = new_cases.rolling(7*8).mean()
-s2 = new_cases.rolling(7*8).std()
-heat = (u1 - u2) / s2
+chart_data = new_cases
+chart_data = chart_data.rolling(7).mean()
+chart_data = chart_data.fillna(0.0)
 
-#import matplotlib.pylab as plt
-#DBG plt.plot(heat[heat.columns[:25]])
+# fast_weeks = 5
+# slow_weeks = 8
+# fast_weeks = 2
+# slow_weeks = 8
+# u1 = new_cases.rolling(7*fast_weeks).mean()
+# u2 = new_cases.rolling(7*slow_weeks).mean()
+# s2 = new_cases.rolling(7*slow_weeks).std()
+# heat = (u1 - u2) / s2
 
-heat = heat / 0.6 * 0.5 + 0.5
-heat = heat.clip(lower=0.0, upper=1.0)
+u1 = new_cases.rolling(7*4).mean()
+heat = u1 - u1.shift(7)
+heat = heat / heat.rolling(56).std()
+
+#chart_data = heat.fillna(0.0)
+
+if 0:
+    import matplotlib.pylab as plt
+    plt.plot(heat[heat.columns[:25]])
+
+range_scaler = 4.0
 heat = heat.fillna(0.0)
+heat = heat / range_scaler * 0.5 + 0.5
+heat = heat.clip(lower=0.0, upper=1.0)
+
+
 
 # %% scale to lookup table index
 print("Building color lut...")
@@ -66,12 +80,12 @@ fd.write("];\n")
 
 print("Building new cases table...")
 print("var new_cases_by_county_id = {", file=fd)
-cols = sorted(new_cases_smoothed.columns)
+cols = sorted(chart_data.columns)
 for i, county_id in enumerate(cols):
     pct = 100 * i / len(cols)
     # print(f"{pct:.1f}% done")
     fd.write(f'"{county_id}": [')
-    rows = list(new_cases_smoothed[county_id])
+    rows = list(chart_data[county_id])
     for x in rows:
         fd.write(f'{x},')
     fd.write("],\n")
