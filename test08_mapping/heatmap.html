@@ -9642,7 +9642,7 @@ function animate() {
 function checkKey(e) {
 
     e = e || window.event;
-    console.log(e.keyCode);
+    // console.log(e.keyCode);
 
     if      (e.keyCode == '32') { /* space */       play_pause();   }
     else if (e.keyCode == '36') { /* home */        goto_start();   }
@@ -9668,12 +9668,14 @@ $(function() {
 
 <br/>
 <h1 id="date_label">20XX-XX-XX</h1>
+<div class="slidecontainer_outer">
+<div align="center">
 <button class="controls" title="Go To Start (Home)" onclick="goto_start();">Start</button>
 <button class="controls" title="Step Back (Left)" onclick="step_back();">Back</button>
 <button class="controls" title="Pause/Play (Space)" onclick="play_pause();" id="playpause">Play</button>
 <button class="controls" title="Step Forward (Right)" onclick="step_forward();">Forward</button>
 <button class="controls" title="Go to End (End)" onclick="goto_end();">End</button>
-<div class="slidecontainer_outer">
+</div>
 <div class="slidecontainer">
   <input id="slider" class="slider" type="range" oninput="update_frame_idx(this.value);" >
 </div></div>
