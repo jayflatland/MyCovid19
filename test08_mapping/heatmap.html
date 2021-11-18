@@ -29,6 +29,19 @@
     .chart {
         width:  800px;
     }
+
+    #date_label {
+        display: inline;
+        padding: 0px 20px 0px 20px;
+        width:  200px;
+    }
+
+    .controls {
+        width:  90px;
+    }
+    .control_icons {
+        height:  20px;
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 
@@ -9534,6 +9547,7 @@
 
 <script type="text/javascript">
 function update_frame_idx(idx) {
+    // console.log(`update_frame_idx(${idx})`);
     for (const [county_id, color_tbl] of Object.entries(color_by_county_id)) {
         c = color_tbl[idx];
         // console.log(county_id, "=", idx);
@@ -9569,7 +9583,83 @@ function load_county_chart(e) {
     });
 }
 
+function step_back() {
+    // console.log("step_back()");
+    s = document.getElementById("slider");
+    s.value -= 1;
+    update_frame_idx(s.value);
+}
+
+var animating_id = null;
+function play_pause() {
+    if(!animating_id) {
+        // console.log("Starting animation...");
+        e = document.getElementById("playpause");
+        e.innerHTML = "Pause";
+        animating_id = setTimeout(animate, 100);
+    } else {
+        // console.log("Stopping animation...");
+        e = document.getElementById("playpause");
+        e.innerHTML = "Play";
+        clearTimeout(animating_id);
+        animating_id = null;
+    }
+
+        
+}
+
+function step_forward() {
+    // console.log("step_forward()");
+    s = document.getElementById("slider");
+    s.value -= -1;//stupid hack, negative forces int instead of string.  i don't know the right way
+    update_frame_idx(s.value);
+}
+
+function goto_start() {
+    s = document.getElementById("slider");
+    s.value = 0;
+    update_frame_idx(s.value);
+}
+
+function goto_end() {
+    s = document.getElementById("slider");
+    s.value = s.max;
+    update_frame_idx(s.value);
+}
+
+
+function animate() {
+    // console.log("animate()");
+
+    s = document.getElementById("slider");
+    s.value -= -1;//stupid hack, negative forces int instead of string.  i don't know the right way
+    // console.log(`s.value=${s.value}`)
+    if(s.value == s.max) {
+        s.value = 0;
+        update_frame_idx(s.value);
+        animating_id = setTimeout(animate, 1000);
+    } else {
+        update_frame_idx(s.value);
+        animating_id = setTimeout(animate, 33);
+    }
+}
+
+
+function checkKey(e) {
+
+    e = e || window.event;
+    console.log(e.keyCode);
+
+    if      (e.keyCode == '32') { /* space */       play_pause();   }
+    else if (e.keyCode == '36') { /* home */        goto_start();   }
+    else if (e.keyCode == '35') { /* end */         goto_end();     }
+    else if (e.keyCode == '37') { /* left arrow */  step_back();    }
+    else if (e.keyCode == '39') { /* right arrow */ step_forward(); }
+}
+
 $(function() {
+    document.onkeydown = checkKey;
+
     last_idx = date_by_idx.length - 1;
 
     s = document.getElementById("slider");
@@ -9582,7 +9672,13 @@ $(function() {
 
 </script>
 
+<br/>
 <h1 id="date_label">20XX-XX-XX</h1>
+<button class="controls" title="Go To Start (Home)" onclick="goto_start();">Start</button>
+<button class="controls" title="Step Back (Left)" onclick="step_back();">Back</button>
+<button class="controls" title="Pause/Play (Space)" onclick="play_pause();" id="playpause">Play</button>
+<button class="controls" title="Step Forward (Right)" onclick="step_forward();">Forward</button>
+<button class="controls" title="Go to End (End)" onclick="goto_end();">End</button>
 <div class="slidecontainer_outer">
 <div class="slidecontainer">
   <input id="slider" class="slider" type="range" oninput="update_frame_idx(this.value);" >
