@@ -11,6 +11,11 @@ county_ids = county_ids.rename(columns={"code": "County_ID"})
 # %%
 
 cases = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+
+#HACK TEST - deaths
+#cases = pd.read_csv("../../../Opensource/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
+#del cases['Population']
+
 cases = cases.rename(columns={"Combined_Key": "County"})
 cases = cases.merge(county_ids, how='left', on='County')
 cases = cases[cases['County_ID'].notnull()]
