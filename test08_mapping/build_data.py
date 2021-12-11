@@ -42,9 +42,15 @@ chart_data = chart_data.fillna(0.0)
 # s2 = new_cases.rolling(7*slow_weeks).std()
 # heat = (u1 - u2) / s2
 
-u1 = new_cases.rolling(7*4).mean()
-heat = u1 - u1.shift(7)
-heat = heat / heat.rolling(56).std()
+#u1 = new_cases.rolling(7*4).mean()
+#heat = u1 - u1.shift(7)
+#heat = heat / heat.rolling(56).std()
+
+#u1 = new_cases.rolling(7).mean()
+#heat = (u1 - u1.rolling(60).mean()) / u1.rolling(60).std()
+
+u1 = new_cases.rolling(7).mean()
+heat = (u1 - u1.mean()) / u1.std()
 
 #chart_data = heat.fillna(0.0)
 
