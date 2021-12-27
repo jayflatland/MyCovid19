@@ -9630,12 +9630,9 @@ function animate() {
     // console.log(`s.value=${s.value}`)
     if(s.value == s.max) {
         s.value = 0;
-        update_frame_idx(s.value);
-        animating_id = setTimeout(animate, 1000);
-    } else {
-        update_frame_idx(s.value);
-        animating_id = setTimeout(animate, 33);
     }
+    update_frame_idx(s.value);
+    animating_id = setTimeout(animate, 33);
 }
 
 
