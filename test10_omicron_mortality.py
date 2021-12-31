@@ -14,12 +14,23 @@ df = df.rename(columns={"Combined_Key": "County"})
 all_counties = list(df['County'])
 
 focus_counties = [
-    # "New York, New York, US",
+    "New York, New York, US",
+    "Cook, Illinois, US",
+    "Honolulu, Hawaii, US",
+    "Cuyahoga, Ohio, US",
+    "Miami-Dade, Florida, US",
+    "Fulton, Georgia, US",
 ]
 
-focus_counties += filter(lambda e : e.endswith(", New Jersey, US"), all_counties)
-focus_counties += filter(lambda e : e.endswith(", New York, US"), all_counties)
-focus_counties += filter(lambda e : e.endswith(", Florida, US"), all_counties)
+#focus_counties += filter(lambda e : e.endswith(", New Jersey, US"), all_counties)
+##focus_counties += filter(lambda e : e.endswith(", New York, US"), all_counties)
+##focus_counties += filter(lambda e : e.endswith(", Florida, US"), all_counties)
+
+#focus_counties_label = "Hardest Hit"#"NYC, NJ, Miama, Cleveland, and Chicago"
+focus_counties_label = "NYC, Chicago, Miami, Atlanta, Cleveland, Honolulu"#"NYC, NJ, Miama, Cleveland, and Chicago"
+
+focus_counties = []
+focus_counties_label = "All US"
 
 # %%
 
@@ -47,11 +58,11 @@ df = pd.DataFrame(dict(new_cases=total_new_cases, new_deaths=total_new_deaths))
 
 # %%
 
-if len(focus_counties) <= 3:
-    plt.figure()
-    plt.title(f"New Cases - {focus_counties}")
-    plt.plot(df['new_cases'])
-    plt.show()
+# if len(focus_counties) <= 3:
+#     plt.figure()
+#     plt.title(f"New Cases - {focus_counties}")
+#     plt.plot(df['new_cases'])
+#     plt.show()
 
 # %%
 """
@@ -68,10 +79,10 @@ df['new_cases_delayed'] = df['new_cases'].shift(avg_days_from_symptoms_to_death)
 
 df['mortality_rate'] = df['new_deaths'] / df['new_cases_delayed']
 
-df = df[Timestamp("2021-07-01"):]
+#df = df[Timestamp("2021-07-01"):]
 
 fig, axs = plt.subplots(3, 1, sharex=True)
-plt.suptitle("New York, New Jersey, and Florida")
+plt.suptitle(focus_counties_label)
 axs[0].plot(df['new_cases'], label="Cases")
 axs[0].plot(df['new_cases_delayed'], label="Cases (delayed)")
 axs[0].legend()
