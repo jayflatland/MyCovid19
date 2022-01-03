@@ -29,8 +29,8 @@ focus_counties = [
 #focus_counties_label = "Hardest Hit"#"NYC, NJ, Miama, Cleveland, and Chicago"
 focus_counties_label = "NYC, Chicago, Miami, Atlanta, Cleveland, Honolulu"#"NYC, NJ, Miama, Cleveland, and Chicago"
 
-focus_counties = []
-focus_counties_label = "All US"
+# focus_counties = []
+# focus_counties_label = "All US"
 
 # %%
 
@@ -73,10 +73,11 @@ were 14 (range 6-41) days, and tended to be shorter among people of 70 year old
 or above (11.5 [range 6-19] days) than those with ages below 70 year old (20 
 [range 10-41] days.
 """
-avg_days_from_symptoms_to_death = 14
+# 14 is from research
+# 28 fits well
+avg_days_from_symptoms_to_death = 28
 #df['new_deaths_delayed'] = df['new_deaths'].shift(avg_days_from_symptoms_to_death)
 df['new_cases_delayed'] = df['new_cases'].shift(avg_days_from_symptoms_to_death)
-
 df['mortality_rate'] = df['new_deaths'] / df['new_cases_delayed']
 
 #df = df[Timestamp("2021-07-01"):]
@@ -84,13 +85,16 @@ df['mortality_rate'] = df['new_deaths'] / df['new_cases_delayed']
 fig, axs = plt.subplots(3, 1, sharex=True)
 plt.suptitle(focus_counties_label)
 axs[0].plot(df['new_cases'], label="Cases")
-axs[0].plot(df['new_cases_delayed'], label="Cases (delayed)")
+axs[0].plot(df['new_cases_delayed'], label=f"Cases (delayed {avg_days_from_symptoms_to_death}d)")
 axs[0].legend()
 axs[1].plot(df['new_deaths'], label="Deaths")
 #axs[1].plot(df['new_deaths_delayed'], label="Deaths (Delayed)")
 axs[1].legend()
 
-axs[2].plot(df['mortality_rate'], label="Mortality Rate")
+#for avg_days_from_symptoms_to_death in [14, 21, 28, 35]:
+#    df['mortality_rate'] = df['new_deaths'] / df['new_cases'].shift(avg_days_from_symptoms_to_death)
+#    axs[2].plot(df['mortality_rate'], label=f"Mortality Rate {avg_days_from_symptoms_to_death}d")
+axs[2].plot(df['mortality_rate'], label=f"Mortality Rate {avg_days_from_symptoms_to_death}d")
 axs[2].set_ylim(0, 0.05)
 axs[2].legend()
 
